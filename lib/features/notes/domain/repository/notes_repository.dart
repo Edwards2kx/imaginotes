@@ -15,4 +15,5 @@ abstract class NotesRepository {
   //filtrar notas por categoría
   //eliminar una nota
   //actualizar una nota
+  Future<void> updateNote(NoteEntity note);
 }

@@ -12,7 +12,20 @@ class SaveNote extends NoteEvent {
   final String content;
 
   const SaveNote({required this.title, required this.content});
+
   // final List<TagEntity> tags;
+}
+
+class UpdateNote extends NoteEvent {
+  final String title;
+  final String content;
+  final NoteEntity note;
+
+  const UpdateNote({
+    required this.title,
+    required this.content,
+    required this.note,
+  });
 }
 
 class LoadNote extends NoteEvent {

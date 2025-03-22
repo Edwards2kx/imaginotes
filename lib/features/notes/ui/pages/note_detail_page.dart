@@ -30,14 +30,15 @@ class NoteDetailPage extends StatelessWidget {
             ).showSnackBar(SnackBar(content: Text(state.message)));
           }
         },
-        child: _NoteDetailBody(),
+        child: _NoteDetailBody(note),
       ),
     );
   }
 }
 
 class _NoteDetailBody extends StatefulWidget {
-  const _NoteDetailBody();
+  const _NoteDetailBody(this.note);
+  final NoteEntity? note;
 
   @override
   State<_NoteDetailBody> createState() => _NoteDetailBodyState();
@@ -46,6 +47,15 @@ class _NoteDetailBody extends StatefulWidget {
 class _NoteDetailBodyState extends State<_NoteDetailBody> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
+
+  @override
+  void initState() {
+    if (widget.note != null) {
+      titleController.text = widget.note!.title;
+      contentController.text = widget.note!.content;
+    }
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -60,12 +70,25 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
       appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.read<NoteBloc>().add(
-            SaveNote(
-              title: titleController.text,
-              content: contentController.text,
-            ),
-          );
+          //guarda una nueva nota
+          if (widget.note == null) {
+            context.read<NoteBloc>().add(
+              SaveNote(
+                title: titleController.text,
+                content: contentController.text,
+              ),
+            );
+          }
+          //actualiza una nota existente
+          else {
+            context.read<NoteBloc>().add(
+              UpdateNote(
+                title: titleController.text,
+                content: contentController.text,
+                note: widget.note!,
+              ),
+            );
+          }
         },
         child: Icon(Icons.save),
       ),

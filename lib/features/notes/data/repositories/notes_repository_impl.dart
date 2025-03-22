@@ -72,4 +72,19 @@ class NotesRepositoryImpl extends NotesRepository {
           }).toList();
         });
   }
+
+  @override
+  Future<void> updateNote(NoteEntity note) {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('Usuario no autenticado');
+    }
+
+    return _firestore.collection('notes').doc(note.id).update({
+      'title': note.title,
+      'content': note.content,
+      'updatedAt': DateTime.now(),
+      // 'tags': note.tags ?? [],
+    });
+  }
 }
