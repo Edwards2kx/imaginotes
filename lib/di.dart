@@ -30,9 +30,14 @@ void setup() {
     ),
   );
 
-  getIt.registerFactory(
-    () => NotesBloc(repository: getIt<NotesRepositoryImpl>()),
+  // getIt.registerFactory(
+  //   () => NotesBloc(repository: getIt<NotesRepositoryImpl>()),
+  // );
+  // getIt.registerSingleton<NotesBloc>(FirebaseAuth.instance);
+  getIt.registerSingleton<NotesBloc>(
+    NotesBloc(repository: getIt<NotesRepositoryImpl>()),
   );
+
   getIt.registerFactory(
     () => NoteBloc(repository: getIt<NotesRepositoryImpl>()),
   );
