@@ -11,7 +11,11 @@ final class NoteInitial extends NoteState {}
 
 final class NoteLoading extends NoteState {}
 
-final class NoteSaved extends NoteState {}
+final class NoteSaved extends NoteState {
+  final String message;
+
+  const NoteSaved({required this.message});
+}
 
 final class NoteSavingError extends NoteState {
   final String message;

@@ -33,3 +33,9 @@ class LoadNote extends NoteEvent {
 
   const LoadNote({required this.id});
 }
+
+class DeleteNote extends NoteEvent {
+  final String id;
+
+  const DeleteNote({required this.id});
+}

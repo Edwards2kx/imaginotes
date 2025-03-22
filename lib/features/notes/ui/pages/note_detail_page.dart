@@ -19,9 +19,9 @@ class NoteDetailPage extends StatelessWidget {
       child: BlocListener<NoteBloc, NoteState>(
         listener: (context, state) {
           if (state is NoteSaved) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Nota guardada correctamente')),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
             context.router.pop();
           }
           if (state is NoteSavingError) {
@@ -64,10 +64,77 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
     super.dispose();
   }
 
+  Future<void> _onDeleteAction() async {
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('¿Borrar nota?'),
+            content: const Text(
+              '¿Estás seguro de que quieres borrar esta nota?',
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('No'),
+              ),
+              FilledButton.tonal(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text('Sí'),
+              ),
+            ],
+          ),
+    );
+    if (confirm == true && mounted) {
+      context.read<NoteBloc>().add(DeleteNote(id: widget.note!.id));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              // Maneja la selección del elemento del menú
+              if (value == 'borrar') {
+                // context.read<NoteBloc>().add(DeleteNote(id: widget.note!.id));
+                _onDeleteAction();
+              } else if (value == 'compartir') {
+              } else if (value == 'etiquetas') {}
+            },
+            itemBuilder:
+                (BuildContext context) => <PopupMenuEntry<String>>[
+                  if (widget.note != null)
+                    const PopupMenuItem<String>(
+                      value: 'borrar',
+                      child: Row(
+                        spacing: 20,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [Icon(Icons.delete_outline), Text('Borrar')],
+                      ),
+                    ),
+                  const PopupMenuItem<String>(
+                    value: 'compartir',
+                    child: Row(
+                      spacing: 20,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [Icon(Icons.share_outlined), Text('Compartir')],
+                    ),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'etiquetas',
+                    child: Row(
+                      spacing: 20,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [Icon(Icons.label_outline), Text('Etiquetas')],
+                    ),
+                  ),
+                ],
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           //guarda una nueva nota

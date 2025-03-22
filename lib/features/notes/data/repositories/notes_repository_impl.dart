@@ -87,4 +87,13 @@ class NotesRepositoryImpl extends NotesRepository {
       // 'tags': note.tags ?? [],
     });
   }
+
+  @override
+  Future<void> deleteNoteById(String id) async {
+    final user = _auth.currentUser;
+    if (user == null) {
+      throw Exception('Usuario no autenticado');
+    }
+    return _firestore.collection('notes').doc(id).delete();
+  }
 }

@@ -14,6 +14,8 @@ abstract class NotesRepository {
   Stream<List<NoteEntity>> getNotes();
   //filtrar notas por categoría
   //eliminar una nota
+  Future<void> deleteNoteById(String id);
   //actualizar una nota
   Future<void> updateNote(NoteEntity note);
+
 }

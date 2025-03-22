@@ -12,14 +12,15 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
       super(NoteInitial()) {
     on<SaveNote>(_saveNoteEvent);
     on<UpdateNote>(_updateNoteEvent);
+    on<DeleteNote>(_deleteNoteEvent);
   }
   _saveNoteEvent(SaveNote event, Emitter<NoteState> emit) async {
     emit(NoteLoading());
     try {
       await _repository.saveNote(title: event.title, content: event.content);
-      emit(NoteSaved());
+      emit(NoteSaved(message: 'Nota guardada correctamente'));
     } catch (e) {
-      emit(NoteSavingError(message: e.toString()));
+      emit(NoteSavingError(message: 'Se presentó un error al guardar la nota'));
     }
   }
 
@@ -31,9 +32,23 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     );
     try {
       await _repository.updateNote(noteUpdated);
-      emit(NoteSaved());
+      emit(NoteSaved(message: 'Nota actualizada correctamente'));
     } catch (e) {
-      emit(NoteSavingError(message: e.toString()));
+      emit(
+        NoteSavingError(message: 'Se presentó un error al actualizar la nota'),
+      );
+    }
+  }
+
+  _deleteNoteEvent(DeleteNote event, Emitter<NoteState> emit) async {
+    emit(NoteLoading());
+    try {
+      await _repository.deleteNoteById(event.id);
+      emit(NoteSaved(message: 'Nota eliminada correctamente'));
+    } catch (e) {
+      emit(
+        NoteSavingError(message: 'Se presentó un error al eliminar la nota'),
+      );
     }
   }
 
