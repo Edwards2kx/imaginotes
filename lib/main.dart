@@ -12,10 +12,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'features/auth/ui/pages/created_account_bloc/create_account_bloc.dart';
 
+import 'di.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
+  setup();
   runApp(MyApp());
 }
 
@@ -34,13 +36,13 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => CreateAccountBloc()),
-            BlocProvider(
-              create:
-                  (_) => LoginBloc(
-                    AuthRepositoryImpl(firebaseAuth: FirebaseAuth.instance),
-                  ),
-            ),
+            // BlocProvider(create: (_) => CreateAccountBloc()),
+            // BlocProvider(
+            //   create:
+            //       (_) => LoginBloc(
+            //         AuthRepositoryImpl(firebaseAuth: FirebaseAuth.instance),
+            //       ),
+            // ),
           ],
           child: child!,
         );
