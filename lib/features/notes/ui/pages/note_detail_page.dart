@@ -90,6 +90,50 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
     }
   }
 
+  // Función para mostrar el modal de pantalla completa
+void _showAddTagsModal(BuildContext context) {
+  // showModalBottomSheet(
+  //   context: context,
+  //   isScrollControlled: true, // Permite pantalla completa
+  //   builder: (BuildContext context) {
+  //     return Scaffold(
+  //       appBar: AppBar(
+  //         title: const Text('Agregar etiquetas'),
+  //       ),
+  //       body: Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Column(
+  //           children: [
+  //             TextField(
+  //               decoration: const InputDecoration(labelText: 'Nueva etiqueta'),
+  //               onSubmitted: (value) {
+  //                 // Lógica para agregar la nueva etiqueta a Firestore
+  //               },
+  //             ),
+  //             Expanded(
+  //               child: ListView.builder(
+  //                 itemCount: tags.length, // Lista de etiquetas existentes
+  //                 itemBuilder: (context, index) {
+  //                   return ListTile(
+  //                     title: Text(tags[index].name),
+  //                     trailing: Checkbox(
+  //                       value: selectedTags.contains(tags[index]),
+  //                       onChanged: (value) {
+  //                         // Lógica para seleccionar/deseleccionar la etiqueta
+  //                       },
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   },
+  // );
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +146,9 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
                 // context.read<NoteBloc>().add(DeleteNote(id: widget.note!.id));
                 _onDeleteAction();
               } else if (value == 'compartir') {
-              } else if (value == 'etiquetas') {}
+              } else if (value == 'etiquetas') {
+                _showAddTagsModal(context);
+              }
             },
             itemBuilder:
                 (BuildContext context) => <PopupMenuEntry<String>>[

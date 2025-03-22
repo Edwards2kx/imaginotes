@@ -6,7 +6,7 @@ class NoteEntity {
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final List<TagEntity> tags;
+  final List<String> tags;
 
   NoteEntity({
     required this.id,
@@ -16,27 +16,6 @@ class NoteEntity {
     required this.updatedAt,
     this.tags = const [],
   });
-
-  // @override
-  // bool operator ==(Object other) {
-  //   if (identical(this, other)) return true;
-
-  //   return other is NoteEntity &&
-  //       other.id == id &&
-  //       other.title == title &&
-  //       other.content == content &&
-  //       other.createdAt == createdAt &&
-  //       other.updatedAt == updatedAt;
-  // }
-
-  // @override
-  // int get hashCode {
-  //   return id.hashCode ^
-  //       title.hashCode ^
-  //       content.hashCode ^
-  //       createdAt.hashCode ^
-  //       updatedAt.hashCode;
-  // }
 
   @override
   String toString() {
@@ -49,7 +28,7 @@ class NoteEntity {
     String? content,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<TagEntity>? tags,
+    List<String>? tags,
   }) {
     return NoteEntity(
       id: id ?? this.id,

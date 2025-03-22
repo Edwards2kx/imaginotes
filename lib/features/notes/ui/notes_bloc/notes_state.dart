@@ -11,19 +11,14 @@ final class NotesInitial extends NotesState {}
 
 final class NotesLoading extends NotesState {}
 
-// final class NotesLoaded extends NotesState {
-//   final List<NoteEntity> notes;
-
-//   const NotesLoaded({required this.notes});
-// }
-
 final class NotesLoaded extends NotesState {
   final List<NoteEntity> notes;
+  final String filterQuery;
 
-  const NotesLoaded({required this.notes});
+  const NotesLoaded({required this.notes, this.filterQuery = ''});
 
   @override
-  List<Object> get props => [notes]; // Incluye la lista de notas en props
+  List<Object> get props => [notes, filterQuery];
 }
 
 final class NotesLoadingError extends NotesState {

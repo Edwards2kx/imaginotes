@@ -34,10 +34,9 @@ class NotesRepositoryImpl extends NotesRepository {
         'content': content,
         'createdAt': nowTime,
         'updatedAt': nowTime,
-        'tags': tags ?? [],
+        'tags': tags ?? ['default tag'],
       });
     } catch (e) {
-      // Manejar el error apropiadamente
       print('Error al guardar la nota: $e');
       rethrow; // Re-lanza el error para que el Bloc pueda manejarlo
     }
@@ -63,11 +62,11 @@ class NotesRepositoryImpl extends NotesRepository {
               content: data['content'],
               createdAt: (data['createdAt'] as Timestamp).toDate(),
               updatedAt: (data['updatedAt'] as Timestamp).toDate(),
-              // tags:
-              //     (data['tags'] as List?)
-              //         ?.map((tag) => tag.toString())
-              //         .toList() ??
-              //     [],
+              tags:
+                  (data['tags'] as List?)
+                      ?.map((tag) => tag.toString())
+                      .toList() ??
+                  [], // Incluye las etiquetas
             );
           }).toList();
         });
@@ -84,7 +83,7 @@ class NotesRepositoryImpl extends NotesRepository {
       'title': note.title,
       'content': note.content,
       'updatedAt': DateTime.now(),
-      // 'tags': note.tags ?? [],
+      'tags': note.tags,
     });
   }
 
