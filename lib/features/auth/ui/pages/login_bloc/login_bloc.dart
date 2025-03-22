@@ -1,35 +1,36 @@
-import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:imaginotes/features/auth/domain/errors/auth_error.dart';
+import 'package:imaginotes/features/auth/domain/repositories/auth_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
-  LoginBloc() : super(LoginInitial()) {
+  LoginBloc(AuthRepository repository)
+    : _repository = repository,
+      super(LoginInitial()) {
     on<LoginAttemptEvent>(_onLoginAttemptEvent);
   }
+  final AuthRepository _repository;
 
-  final auth = FirebaseAuth.instance;
-
-  void _onLoginAttemptEvent(
+  _onLoginAttemptEvent(
     LoginAttemptEvent event,
     Emitter<LoginState> emit,
   ) async {
-    try {
-      final authResponse = await auth.signInWithEmailAndPassword(
-        email: event.email,
-        password: event.password,
-      );
-      if (authResponse.user != null) {
-        // emit(LoginSuccess());
-      } else {
-        // emit(LoginFailure('User not found'));
-      }
-    } catch (e) {
-      // emit(LoginFailure(e.toString()));
-      debugPrint('error: $e');
+    emit(LoginLoading());
+
+    final authResponse = await _repository.signInWithEmailAndPassword(
+      event.email,
+      event.password,
+    );
+    if (authResponse.isLeft) {
+      emit(LoginError((authResponse.left.type)));
+      return;
     }
+
+    emit(LoginSuccess());
   }
 }

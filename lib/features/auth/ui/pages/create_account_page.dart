@@ -5,8 +5,8 @@ import 'package:imaginotes/features/auth/ui/pages/created_account_bloc/create_ac
 
 
 @RoutePage()
-class CreateAccountPage extends StatelessWidget {
-  CreateAccountPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
