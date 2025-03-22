@@ -33,10 +33,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      darkTheme: ThemeData.dark(),
       builder: (context, child) {
         return MultiBlocProvider(
           providers: [
-            // BlocProvider(create: (_) => CreateAccountBloc()),
+            BlocProvider(create: (_) => CreateAccountBloc()),
             // BlocProvider(
             //   create:
             //       (_) => LoginBloc(

@@ -28,35 +28,53 @@ class CheckAuthRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LoginPage]
-class LoginRoute extends PageRouteInfo<LoginRouteArgs> {
-  LoginRoute({Key? key, List<PageRouteInfo>? children})
-    : super(
-        LoginRoute.name,
-        args: LoginRouteArgs(key: key),
-        initialChildren: children,
-      );
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+    : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<LoginRouteArgs>(
-        orElse: () => const LoginRouteArgs(),
-      );
-      return LoginPage(key: args.key);
+      return const LoginPage();
     },
   );
 }
 
-class LoginRouteArgs {
-  const LoginRouteArgs({this.key});
+/// generated route for
+/// [NoteDetailPage]
+class NoteDetailRoute extends PageRouteInfo<NoteDetailRouteArgs> {
+  NoteDetailRoute({Key? key, NoteEntity? note, List<PageRouteInfo>? children})
+    : super(
+        NoteDetailRoute.name,
+        args: NoteDetailRouteArgs(key: key, note: note),
+        initialChildren: children,
+      );
+
+  static const String name = 'NoteDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<NoteDetailRouteArgs>(
+        orElse: () => const NoteDetailRouteArgs(),
+      );
+      return NoteDetailPage(key: args.key, note: args.note);
+    },
+  );
+}
+
+class NoteDetailRouteArgs {
+  const NoteDetailRouteArgs({this.key, this.note});
 
   final Key? key;
 
+  final NoteEntity? note;
+
   @override
   String toString() {
-    return 'LoginRouteArgs{key: $key}';
+    return 'NoteDetailRouteArgs{key: $key, note: $note}';
   }
 }
 
