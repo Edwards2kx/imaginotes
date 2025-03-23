@@ -45,7 +45,7 @@ class NoteCard extends StatelessWidget {
                 runSpacing: 4,
                 children:
                     note.tags.map((tag) {
-                      return Chip(label: Text(tag));
+                      return Chip(label: Text(tag.value));
                     }).toList(),
               ),
             ],

@@ -1,27 +1,19 @@
-import 'dart:convert';
-
 class TagEntity {
-  final String tagName;
+  final String id;
+  final String value;
 
-  TagEntity({required this.tagName});
+  TagEntity({required this.id, required this.value});
 
-  TagEntity copyWith({String? tagName}) {
-    return TagEntity(tagName: tagName ?? this.tagName);
+  factory TagEntity.fromJson(Map<String, dynamic> json, String id) {
+    return TagEntity(
+      id: id,
+      value: json['nombre'],
+    );
   }
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{'tagName': tagName};
+  Map<String, dynamic> toJson() {
+    return {
+      'nombre': value,
+    };
   }
-
-  factory TagEntity.fromMap(Map<String, dynamic> map) {
-    return TagEntity(tagName: map['tagName'] as String);
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory TagEntity.fromJson(String source) =>
-      TagEntity.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  String toString() => 'TagEntity(tagName: $tagName)';
 }

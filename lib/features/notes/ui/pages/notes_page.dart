@@ -9,6 +9,7 @@ import 'package:imaginotes/di.dart';
 import 'package:imaginotes/features/notes/ui/widgets/note_card.dart';
 
 import '../notes_bloc/notes_bloc.dart';
+import '../tags_bloc/tags_bloc.dart';
 
 @RoutePage()
 class NotesPage extends StatelessWidget {
@@ -16,9 +17,11 @@ class NotesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<NotesBloc>()..add(LoadNotes()),
-
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<NotesBloc>()..add(LoadNotes())),
+        BlocProvider(create: (context) => getIt<TagsBloc>()..add(LoadTags())),
+      ],
       child: BlocListener<NotesBloc, NotesState>(
         listener: (context, state) {
           if (state is NotesLoadingError) {
@@ -39,7 +42,7 @@ class NotesPage extends StatelessWidget {
 
           body: NestedScrollView(
             headerSliverBuilder:
-                (context, innerBoxIsScrolled) => [
+                (_, __) => [
                   SliverAppBar(
                     floating: true,
                     pinned: false,

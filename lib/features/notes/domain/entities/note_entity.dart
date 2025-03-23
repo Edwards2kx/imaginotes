@@ -6,7 +6,7 @@ class NoteEntity {
   final String content;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final List<String> tags;
+  final List<TagEntity> tags;
 
   NoteEntity({
     required this.id,
@@ -28,7 +28,7 @@ class NoteEntity {
     String? content,
     DateTime? createdAt,
     DateTime? updatedAt,
-    List<String>? tags,
+    List<TagEntity>? tags,
   }) {
     return NoteEntity(
       id: id ?? this.id,

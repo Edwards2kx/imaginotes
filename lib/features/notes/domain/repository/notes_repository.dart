@@ -7,15 +7,10 @@ abstract class NotesRepository {
     required String content,
     List<String>? tags,
   });
-  // Future<void> saveNote(NoteEntity note);
-
-  //obtener nota por id
   //obtener listado de notas
   Stream<List<NoteEntity>> getNotes();
-  //filtrar notas por categoría
   //eliminar una nota
   Future<void> deleteNoteById(String id);
   //actualizar una nota
   Future<void> updateNote(NoteEntity note);
-
 }
