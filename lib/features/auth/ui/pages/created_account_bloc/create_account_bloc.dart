@@ -1,30 +1,33 @@
-import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'create_account_event.dart';
 part 'create_account_state.dart';
 
 class CreateAccountBloc extends Bloc<CreateAccountEvent, CreateAccountState> {
   CreateAccountBloc() : super(CreateAccountInitial()) {
-    on<CreateAccountEvent>((event, emit) {
+    on<CreateAccountAttempt>(_createAccountAttempt);
+  }
+  void _createAccountAttempt(CreateAccountAttempt event, emit) async {
+    if (event.password != event.confirmPassword) {
+      emit(CreateAccountError(errorMessage: 'Las contraseñas no coinciden'));
+      return;
+    }
+    emit(CreateAccountLoading());
 
-      if (event is CreateAccountAttempt) {
     final FirebaseAuth auth = FirebaseAuth.instance;
-        auth.createUserWithEmailAndPassword(
-          email: event.email,
-          password: event.password,
-        ).then((value) {
-          debugPrint('user created $value');
-          
-          // emit(CreateAccountSuccess());
-        }).catchError((error) {
-          debugPrint('error: $error');
-          // emit(CreateAccountFailure(error.toString()));
-        });
-      }
-      
-    });
+    try {
+      await auth.createUserWithEmailAndPassword(
+        email: event.email,
+        password: event.password,
+      );
+      emit(CreateAccountSuccess());
+    } on FirebaseAuthException catch (e) {
+      emit(CreateAccountError(errorMessage: e.message ?? 'Error desconocido'));
+    } catch (e) {
+      emit(CreateAccountError(errorMessage: e.toString()));
+    }
   }
 }

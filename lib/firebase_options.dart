@@ -47,29 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBCppsn_4_14noUbrf5FHjOhyDNea0AxVA',
-    appId: '1:116394319461:web:e09936ecd824ad1c59308c',
-    messagingSenderId: '116394319461',
-    projectId: 'imaginotes-9697a',
-    authDomain: 'imaginotes-9697a.firebaseapp.com',
-    storageBucket: 'imaginotes-9697a.firebasestorage.app',
-    measurementId: 'G-2K0QCLJDNX',
+    apiKey: 'AIzaSyBtnvC7dxHg9RTuIaq7gWduttz7vvuaFhM',
+    appId: '1:468104363983:web:c3a31dbb92288a38669cba',
+    messagingSenderId: '468104363983',
+    projectId: 'imaginotes-fb770',
+    authDomain: 'imaginotes-fb770.firebaseapp.com',
+    storageBucket: 'imaginotes-fb770.firebasestorage.app',
+    measurementId: 'G-Q9EDWHYH13',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCJCBL7qja9OR86uR7Yrj7VV4Sh2pMjfVw',
-    appId: '1:116394319461:android:21fb4db73f41744559308c',
-    messagingSenderId: '116394319461',
-    projectId: 'imaginotes-9697a',
-    storageBucket: 'imaginotes-9697a.firebasestorage.app',
+    apiKey: 'AIzaSyAA2jOeQtvDo47BNOOBr7I0Blk5DmQyBVw',
+    appId: '1:468104363983:android:77b8446ed891ff04669cba',
+    messagingSenderId: '468104363983',
+    projectId: 'imaginotes-fb770',
+    storageBucket: 'imaginotes-fb770.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAKjSMb9N5FmWJ_Nwk1BCMdIkKNXwh_skc',
-    appId: '1:116394319461:ios:19aa44f118c08bc259308c',
-    messagingSenderId: '116394319461',
-    projectId: 'imaginotes-9697a',
-    storageBucket: 'imaginotes-9697a.firebasestorage.app',
+    apiKey: 'AIzaSyB3sbsKJvTHb98o0mkcbdfVc5MLYVoj524',
+    appId: '1:468104363983:ios:6f03389e5cb716dc669cba',
+    messagingSenderId: '468104363983',
+    projectId: 'imaginotes-fb770',
+    storageBucket: 'imaginotes-fb770.firebasestorage.app',
     iosBundleId: 'com.imaginotes.imaginamos.imaginotes',
   );
+
 }

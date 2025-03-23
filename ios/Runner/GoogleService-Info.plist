@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyAKjSMb9N5FmWJ_Nwk1BCMdIkKNXwh_skc</string>
+	<string>AIzaSyB3sbsKJvTHb98o0mkcbdfVc5MLYVoj524</string>
 	<key>GCM_SENDER_ID</key>
-	<string>116394319461</string>
+	<string>468104363983</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.imaginotes.imaginamos.imaginotes</string>
 	<key>PROJECT_ID</key>
-	<string>imaginotes-9697a</string>
+	<string>imaginotes-fb770</string>
 	<key>STORAGE_BUCKET</key>
-	<string>imaginotes-9697a.firebasestorage.app</string>
+	<string>imaginotes-fb770.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:116394319461:ios:19aa44f118c08bc259308c</string>
+	<string>1:468104363983:ios:6f03389e5cb716dc669cba</string>
 </dict>
 </plist>
