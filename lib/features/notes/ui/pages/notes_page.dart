@@ -19,8 +19,14 @@ class NotesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<NotesBloc>()..add(LoadNotes())),
-        BlocProvider(create: (context) => getIt<TagsBloc>()..add(LoadTags())),
+        BlocProvider(
+          create: (_) => getIt<NotesBloc>()..add(LoadNotes()),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (_) => getIt<TagsBloc>()..add(LoadTags()),
+          lazy: false,
+        ),
       ],
       child: BlocListener<NotesBloc, NotesState>(
         listener: (context, state) {

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imaginotes/features/notes/domain/entities/note_entity.dart';
+import 'package:imaginotes/features/notes/domain/entities/tag_entity.dart';
 import 'package:imaginotes/features/notes/domain/repository/notes_repository.dart';
 
 part 'note_event.dart';
@@ -17,7 +18,12 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
   _saveNoteEvent(SaveNote event, Emitter<NoteState> emit) async {
     emit(NoteLoading());
     try {
-      await _repository.saveNote(title: event.title, content: event.content);
+      final tagsId = event.tags.map((tag) => tag.id).toList();
+      await _repository.saveNote(
+        title: event.title,
+        content: event.content,
+        tags: tagsId,
+      );
       emit(NoteSaved(message: 'Nota guardada correctamente'));
     } catch (e) {
       emit(NoteSavingError(message: 'Se presentó un error al guardar la nota'));

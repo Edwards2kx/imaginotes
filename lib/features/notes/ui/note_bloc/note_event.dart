@@ -10,10 +10,13 @@ sealed class NoteEvent extends Equatable {
 class SaveNote extends NoteEvent {
   final String title;
   final String content;
+  final List<TagEntity> tags;
 
-  const SaveNote({required this.title, required this.content});
-
-  // final List<TagEntity> tags;
+  const SaveNote({
+    required this.title,
+    required this.content,
+    this.tags = const [],
+  });
 }
 
 class UpdateNote extends NoteEvent {

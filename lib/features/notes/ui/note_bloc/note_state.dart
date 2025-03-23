@@ -24,13 +24,15 @@ final class NoteSavingError extends NoteState {
 }
 
 final class NoteLoaded extends NoteState {
-  final String title;
-  final String content;
-  final DateTime updatedAt;
-
   const NoteLoaded({
     required this.title,
     required this.content,
     required this.updatedAt,
+    required this.tags,
   });
+
+  final String title;
+  final String content;
+  final DateTime updatedAt;
+  final List<TagEntity> tags;
 }
