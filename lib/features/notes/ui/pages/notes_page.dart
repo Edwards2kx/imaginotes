@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:imaginotes/core/config/router/app_constants.dart';
 import 'package:imaginotes/core/config/router/app_router.dart';
 import 'package:imaginotes/di.dart';
+import 'package:imaginotes/features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
 import 'package:imaginotes/features/notes/ui/widgets/note_card.dart';
 
 import '../notes_bloc/notes_bloc.dart';
@@ -76,20 +77,22 @@ class NotesPage extends StatelessWidget {
                                   icon: Icon(Icons.menu),
                                 ),
                                 const SizedBox(width: 8.0),
-                                const Expanded(
+                                Expanded(
                                   child: Text(
                                     'Buscar tus notas',
-                                    style: TextStyle(color: Colors.white70),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium
+                                        ?.copyWith(color: Colors.white70),
                                   ),
                                 ),
-                                const CircleAvatar(
-                                  radius: 14,
-                                  backgroundColor: Colors.white,
-                                  child: Icon(
-                                    Icons.person,
-                                    color: Colors.black,
-                                  ),
+                                IconButton(
+                                  onPressed: () {
+                                    getIt<CheckAuthBloc>().add(Logout());
+                                  },
+                                  icon: Icon(Icons.logout_outlined),
                                 ),
+
                                 const SizedBox(width: 8.0),
                               ],
                             ),

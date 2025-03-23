@@ -6,7 +6,8 @@ import 'package:imaginotes/features/notes/ui/notes_bloc/notes_bloc.dart';
 import 'package:imaginotes/features/notes/ui/tags_bloc/tags_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
-import 'features/auth/ui/pages/check_auth_bloc/check_auth_bloc.dart';
+import 'features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
+import 'features/auth/ui/pages/login_bloc/login_bloc.dart';
 import 'features/notes/data/repositories/notes_repository_impl.dart';
 import 'features/notes/data/repositories/tags_repository_impl.dart';
 
@@ -42,6 +43,8 @@ void setup() {
   getIt.registerSingleton<NotesBloc>(
     NotesBloc(repository: getIt<NotesRepositoryImpl>()),
   );
+
+  getIt.registerSingleton<LoginBloc>(LoginBloc(getIt<AuthRepositoryImpl>()));
 
   getIt.registerSingleton<TagsBloc>(
     TagsBloc(repository: getIt<TagRepositoryImpl>()),

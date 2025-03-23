@@ -11,3 +11,8 @@ sealed class CheckAuthEvent extends Equatable {
 final class CheckAuthStartEvent extends CheckAuthEvent {
   const CheckAuthStartEvent();
 }
+
+
+final class Logout extends CheckAuthEvent {
+  const Logout();
+}

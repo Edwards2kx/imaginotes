@@ -12,7 +12,7 @@ class NoteCard extends StatelessWidget {
     this.searchQuery = '',
   });
 
-  final Function? onTap;
+  final VoidCallback? onTap;
   final NoteEntity note;
   final bool isSelected;
   final String searchQuery;
@@ -26,19 +26,27 @@ class NoteCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: InkWell(
-        onTap: () {
-          if (onTap != null) {
-            onTap!();
-          }
-        },
+        onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(AppConstants.notesPagePadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHighlightedText(note.title, searchQuery, context),
+              _buildRemarkedText(
+                text: note.title,
+                query: searchQuery,
+                context: context,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w800),
+              ),
               const SizedBox(height: 8),
-              _buildHighlightedText(note.content, searchQuery, context),
+              _buildRemarkedText(
+                text: note.content,
+                query: searchQuery,
+                context: context,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
               const SizedBox(height: 8),
               Wrap(
                 spacing: 8,
@@ -55,13 +63,19 @@ class NoteCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHighlightedText(
-    String text,
-    String query,
-    BuildContext context,
-  ) {
+  Widget _buildRemarkedText({
+    required String text,
+    required String query,
+    required BuildContext context,
+    TextStyle? style,
+  }) {
     if (query.isEmpty || !text.toLowerCase().contains(query.toLowerCase())) {
-      return Text(text, maxLines: 7, overflow: TextOverflow.ellipsis);
+      return Text(
+        text,
+        maxLines: 7,
+        overflow: TextOverflow.ellipsis,
+        style: style,
+      );
     }
 
     final lowerText = text.toLowerCase();
@@ -73,7 +87,12 @@ class NoteCard extends StatelessWidget {
     final matches = regExp.allMatches(lowerText);
 
     if (matches.isEmpty) {
-      return Text(text, maxLines: 7, overflow: TextOverflow.ellipsis);
+      return Text(
+        text,
+        maxLines: 7,
+        overflow: TextOverflow.ellipsis,
+        style: style,
+      );
     }
 
     final List<TextSpan> children = [];
@@ -84,8 +103,8 @@ class NoteCard extends StatelessWidget {
       children.add(
         TextSpan(
           text: text.substring(match.start, match.end),
-          style: TextStyle(
-            backgroundColor: Colors.yellow.shade300,
+          style: style?.copyWith(
+            backgroundColor: Colors.yellow.shade200,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.surface,
           ),
@@ -99,13 +118,7 @@ class NoteCard extends StatelessWidget {
     }
 
     return RichText(
-      text: TextSpan(
-        style:
-            DefaultTextStyle.of(
-              context,
-            ).style, // Usa el estilo predeterminado para evitar desajustes
-        children: children,
-      ),
+      text: TextSpan(style: style, children: children),
       maxLines: 7,
       overflow: TextOverflow.ellipsis,
     );

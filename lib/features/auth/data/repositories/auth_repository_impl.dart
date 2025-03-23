@@ -14,12 +14,6 @@ class AuthRepositoryImpl implements AuthRepository {
     : _firebaseAuth = firebaseAuth;
 
   @override
-  Future<String> getUser() {
-    // TODO: implement getUser
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> isSignedIn() async {
     return _firebaseAuth.currentUser != null ? true : false;
   }

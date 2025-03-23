@@ -22,6 +22,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   ) async {
     emit(LoginLoading());
 
+    if (event.email.isEmpty || event.password.isEmpty) {
+      emit(LoginError(AuthErrorType.invalidLoginCredentials));
+      return;
+    }
+
     final authResponse = await _repository.signInWithEmailAndPassword(
       event.email,
       event.password,
