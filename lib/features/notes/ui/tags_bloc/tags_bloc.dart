@@ -14,6 +14,7 @@ class TagsBloc extends Bloc<TagsEvent, TagsState> {
       super(TagsInitial()) {
     on<LoadTags>(_loadTags);
     on<SaveTag>(_saveTag);
+    on<DeleteTag>(_deleteTag);
   }
 
   _loadTags(LoadTags event, Emitter<TagsState> emit) async {
@@ -37,6 +38,21 @@ class TagsBloc extends Bloc<TagsEvent, TagsState> {
       emit(
         TagsLoadingError(
           message: 'Se presentó un error al guardar la etiqueta',
+        ),
+      );
+    }
+  }
+
+  _deleteTag(DeleteTag event, Emitter<TagsState> emit) async {
+    emit(TagsLoading());
+    try {
+      await _repository.deleteTag(event.tagId);
+      // Recargar los tags después de eliminar
+      add(LoadTags());
+    } catch (e) {
+      emit(
+        TagsLoadingError(
+          message: 'Se presentó un error al eliminar la etiqueta',
         ),
       );
     }

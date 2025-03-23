@@ -35,6 +35,7 @@ class NoteBloc extends Bloc<NoteEvent, NoteState> {
     final noteUpdated = event.note.copyWith(
       title: event.title,
       content: event.content,
+      tags: event.tags,
     );
     try {
       await _repository.updateNote(noteUpdated);

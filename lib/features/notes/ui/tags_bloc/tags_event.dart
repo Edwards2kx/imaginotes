@@ -22,14 +22,8 @@ class UpdateTag extends TagsEvent {
   const UpdateTag({required this.tagEntity, required this.tagValue});
 }
 
+class DeleteTag extends TagsEvent {
+  final String tagId;
+  const DeleteTag({required this.tagId});
+}
 
-
-// class LoadNotes extends NotesEvent {}
-
-// class SearchNotes extends NotesEvent {
-//   final String query;
-
-//   const SearchNotes(this.query);
-
-//   @override
-//   List<Object> get props => [query];

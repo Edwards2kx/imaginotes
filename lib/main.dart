@@ -28,25 +28,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'ImagiNotes',
+      debugShowCheckedModeBanner: false,
       routerConfig: appRouter.config(),
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       darkTheme: ThemeData.dark(),
       builder: (context, child) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => CreateAccountBloc()),
-            // BlocProvider(
-            //   create:
-            //       (_) => LoginBloc(
-            //         AuthRepositoryImpl(firebaseAuth: FirebaseAuth.instance),
-            //       ),
-            // ),
-          ],
-          child: child!,
-        );
+        return child!;
       },
     );
   }

@@ -7,7 +7,6 @@ import 'package:imaginotes/features/notes/ui/note_bloc/note_bloc.dart';
 import 'package:imaginotes/features/notes/ui/widgets/tags_list_bottomsheet.dart';
 
 import '../../domain/entities/tag_entity.dart';
-import '../tags_bloc/tags_bloc.dart';
 
 @RoutePage()
 class NoteDetailPage extends StatelessWidget {
@@ -52,13 +51,14 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
 
-  final List<TagEntity> selectedTags = [];
+  List<TagEntity> selectedTags = [];
 
   @override
   void initState() {
     if (widget.note != null) {
       titleController.text = widget.note!.title;
       contentController.text = widget.note!.content;
+      selectedTags.addAll(widget.note!.tags);
     }
     super.initState();
   }
@@ -96,16 +96,19 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
     }
   }
 
+  
   void _showAddTagsModal(BuildContext context) async {
     final result = await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent, // Para bordes redondeados
       builder: (BuildContext context) {
-        return TagsBottomSheet();
+        return TagsBottomSheet(selectedTags: selectedTags);
       },
     );
-    setState(() => selectedTags.addAll(result ?? []));
+
+    // setState(() => selectedTags.addAll(result ?? []));
+    setState(() => selectedTags = result ?? selectedTags);
   }
 
   @override
@@ -113,46 +116,16 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              // Maneja la selección del elemento del menú
-              if (value == 'borrar') {
-                _onDeleteAction();
-              } else if (value == 'compartir') {
-              } else if (value == 'etiquetas') {
-                _showAddTagsModal(context);
-                // _newTag(context);
-              }
-            },
-            itemBuilder:
-                (BuildContext context) => <PopupMenuEntry<String>>[
-                  if (widget.note != null)
-                    const PopupMenuItem<String>(
-                      value: 'borrar',
-                      child: Row(
-                        spacing: 20,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [Icon(Icons.delete_outline), Text('Borrar')],
-                      ),
-                    ),
-                  const PopupMenuItem<String>(
-                    value: 'compartir',
-                    child: Row(
-                      spacing: 20,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [Icon(Icons.share_outlined), Text('Compartir')],
-                    ),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'etiquetas',
-                    child: Row(
-                      spacing: 20,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [Icon(Icons.label_outline), Text('Etiquetas')],
-                    ),
-                  ),
-                ],
+          IconButton(
+            onPressed: () => _showAddTagsModal(context),
+            icon: Icon(Icons.label_outline),
           ),
+          if (widget.note != null)
+            IconButton(
+              onPressed: () => _onDeleteAction(),
+              icon: const Icon(Icons.delete_outline),
+            ),
+          SizedBox(width: 16),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -174,6 +147,7 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
                 title: titleController.text,
                 content: contentController.text,
                 note: widget.note!,
+                tags: selectedTags,
               ),
             );
           }

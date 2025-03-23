@@ -23,11 +23,13 @@ class UpdateNote extends NoteEvent {
   final String title;
   final String content;
   final NoteEntity note;
+  final List<TagEntity> tags;
 
   const UpdateNote({
     required this.title,
     required this.content,
     required this.note,
+    this.tags = const [],
   });
 }
 
