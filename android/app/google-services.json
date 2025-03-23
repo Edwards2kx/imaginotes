@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "116394319461",
-    "project_id": "imaginotes-9697a",
-    "storage_bucket": "imaginotes-9697a.firebasestorage.app"
+    "project_number": "468104363983",
+    "project_id": "imaginotes-fb770",
+    "storage_bucket": "imaginotes-fb770.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:116394319461:android:21fb4db73f41744559308c",
+        "mobilesdk_app_id": "1:468104363983:android:77b8446ed891ff04669cba",
         "android_client_info": {
           "package_name": "com.imaginotes.imaginamos.imaginotes"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCJCBL7qja9OR86uR7Yrj7VV4Sh2pMjfVw"
+          "current_key": "AIzaSyAA2jOeQtvDo47BNOOBr7I0Blk5DmQyBVw"
         }
       ],
       "services": {

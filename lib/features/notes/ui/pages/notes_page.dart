@@ -32,6 +32,7 @@ class NotesPage extends StatelessWidget {
       child: BlocListener<NotesBloc, NotesState>(
         listener: (context, state) {
           if (state is NotesLoadingError) {
+            context.router.replace(const LoginRoute());
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
