@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/tag_entity.dart';
-import '../../domain/repository/tags_repository.dart';
+import '../../../domain/entities/tag_entity.dart';
+import '../../../domain/repository/tags_repository.dart';
 
 part 'tags_event.dart';
 part 'tags_state.dart';

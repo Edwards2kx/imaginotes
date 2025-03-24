@@ -1,5 +1,4 @@
-import 'package:imaginotes/features/notes/domain/entities/note_entity.dart';
-
+import '../entities/note_entity.dart';
 abstract class NotesRepository {
   //guardar nota
   Future<void> saveNote({
@@ -8,7 +7,7 @@ abstract class NotesRepository {
     List<String>? tags,
   });
   //obtener listado de notas
-  Stream<List<NoteEntity>> getNotes();
+  Stream<List<NoteEntity>> getNotes({Set<String>? tags});
   //eliminar una nota
   Future<void> deleteNoteById(String id);
   //actualizar una nota

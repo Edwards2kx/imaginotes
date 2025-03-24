@@ -1,5 +1,4 @@
-import 'package:imaginotes/features/notes/domain/entities/tag_entity.dart';
-
+import 'tag_entity.dart';
 class NoteEntity {
   final String id;
   final String title;
@@ -17,11 +16,6 @@ class NoteEntity {
     this.tags = const [],
   });
 
-  @override
-  String toString() {
-    return 'NoteEntity(id: $id, title: $title, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
-  }
-
   NoteEntity copyWith({
     String? id,
     String? title,
@@ -38,5 +32,10 @@ class NoteEntity {
       updatedAt: updatedAt ?? this.updatedAt,
       tags: tags ?? this.tags,
     );
+  }
+
+  @override
+  String toString() {
+    return 'NoteEntity(id: $id, title: $title, content: $content, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 }

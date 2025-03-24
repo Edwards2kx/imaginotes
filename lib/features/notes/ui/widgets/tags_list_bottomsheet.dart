@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+
 import 'package:imaginotes/core/config/router/app_router.dart';
 import 'package:imaginotes/di.dart';
-import 'package:imaginotes/features/notes/ui/notes_bloc/notes_bloc.dart';
-import 'package:imaginotes/features/notes/ui/tags_bloc/tags_bloc.dart';
 
 import '../../domain/entities/tag_entity.dart';
+import '../blocs/notes_bloc/notes_bloc.dart';
+import '../blocs/tags_bloc/tags_bloc.dart';
 
 class TagsBottomSheet extends StatefulWidget {
   const TagsBottomSheet({super.key, this.selectedTags = const []});
@@ -27,10 +28,10 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
     selectedTags.addAll(widget.selectedTags);
   }
 
-  void onNewTagTapped(BuildContext context) {
+  void onNewTagTapped() {
     showDialog(
       context: context,
-      builder: (context) {
+      builder: (_) {
         return AlertDialog(
           title: const Text('Agregar etiqueta'),
           content: TextField(
@@ -41,9 +42,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => context.pop(),
               child: const Text('Cancelar'),
             ),
             TextButton(
@@ -64,7 +63,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
     final confirm = await showDialog<bool>(
       context: context,
       builder:
-          (context) => AlertDialog(
+          (_) => AlertDialog(
             title: const Text('¿Deseas borar la etiqueta?'),
             content: const Text(
               'Será necesario volver a cargar las notas despues de la eliminación de la etiqueta',
@@ -82,7 +81,6 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
           ),
     );
     if (confirm == true && mounted) {
-      // context.read<NoteBloc>().add(DeleteNote(id: widget.note!.id));
       getIt<TagsBloc>().add(DeleteTag(tagId: tagId));
       //Recargar las notas para remover las etiquetas eliminadas
       getIt<NotesBloc>().add(LoadNotes());
@@ -101,9 +99,9 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: 0.4, // Tamaño inicial
-      minChildSize: 0.3, // Tamaño mínimo
-      maxChildSize: 0.8, // Tamaño máximo
+      initialChildSize: 0.4,
+      minChildSize: 0.3,
+      maxChildSize: 0.8,
       expand: false,
       builder: (context, scrollController) {
         return Container(
@@ -113,7 +111,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
           ),
           child: BlocBuilder<TagsBloc, TagsState>(
             bloc: getIt<TagsBloc>(),
-            builder: (context, state) {
+            builder: (_, state) {
               if (state is TagsLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is TagsLoaded) {
@@ -135,7 +133,7 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () => onNewTagTapped(context),
+                            onPressed: () => onNewTagTapped(),
                             child: const Text('+ Nueva etiqueta'),
                           ),
                         ],
