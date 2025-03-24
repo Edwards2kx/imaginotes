@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imaginotes/di.dart';
 import 'package:imaginotes/features/notes/domain/entities/note_entity.dart';
-import 'package:imaginotes/features/notes/ui/note_bloc/note_bloc.dart';
+import 'package:imaginotes/features/notes/ui/blocs/note_bloc/note_bloc.dart';
 import 'package:imaginotes/features/notes/ui/widgets/tags_list_bottomsheet.dart';
 
 import '../../domain/entities/tag_entity.dart';

@@ -96,36 +96,18 @@ class NotesRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [RegisterPage]
-class RegisterRoute extends PageRouteInfo<RegisterRouteArgs> {
-  RegisterRoute({Key? key, List<PageRouteInfo>? children})
-    : super(
-        RegisterRoute.name,
-        args: RegisterRouteArgs(key: key),
-        initialChildren: children,
-      );
+class RegisterRoute extends PageRouteInfo<void> {
+  const RegisterRoute({List<PageRouteInfo>? children})
+    : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<RegisterRouteArgs>(
-        orElse: () => const RegisterRouteArgs(),
-      );
-      return RegisterPage(key: args.key);
+      return const RegisterPage();
     },
   );
-}
-
-class RegisterRouteArgs {
-  const RegisterRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'RegisterRouteArgs{key: $key}';
-  }
 }
 
 /// generated route for

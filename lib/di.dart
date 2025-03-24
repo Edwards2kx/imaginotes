@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
-import 'package:imaginotes/features/notes/ui/note_bloc/note_bloc.dart';
-import 'package:imaginotes/features/notes/ui/notes_bloc/notes_bloc.dart';
-import 'package:imaginotes/features/notes/ui/tags_bloc/tags_bloc.dart';
+import 'package:imaginotes/features/notes/ui/blocs/note_bloc/note_bloc.dart';
+import 'package:imaginotes/features/notes/ui/blocs/notes_bloc/notes_bloc.dart';
+import 'package:imaginotes/features/notes/ui/blocs/tags_bloc/tags_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
