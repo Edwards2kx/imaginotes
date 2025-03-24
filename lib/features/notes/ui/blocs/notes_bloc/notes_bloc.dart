@@ -1,8 +1,7 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:imaginotes/features/notes/domain/entities/note_entity.dart';
 
+import '../../../domain/entities/note_entity.dart';
 import '../../../domain/repository/notes_repository.dart';
 
 part 'notes_event.dart';
@@ -22,8 +21,10 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     emit(NotesLoading());
     try {
       await emit.forEach<List<NoteEntity>>(
-        _repository.getNotes(),
-        onData: (notes) => NotesLoaded(notes: [...notes]),
+        _repository.getNotes(tags: event.tags),
+        onData:
+            (notes) =>
+                NotesLoaded(notes: [...notes], selectedTags: event.tags ?? {}),
       );
     } catch (e) {
       emit(NotesLoadingError(message: e.toString()));
@@ -33,11 +34,15 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   _searchNotesEvent(SearchNotes event, Emitter<NotesState> emit) async {
     // emit(NotesLoading());
     try {
-      final notes = await _repository.getNotes().first; // Obtiene la lista de notas
-      final filteredNotes = notes.where((note) {
-        return note.title.toLowerCase().contains(event.query.toLowerCase()) ||
-            note.content.toLowerCase().contains(event.query.toLowerCase());
-      }).toList();
+      final notes =
+          await _repository.getNotes().first; // Obtiene la lista de notas
+      final filteredNotes =
+          notes.where((note) {
+            return note.title.toLowerCase().contains(
+                  event.query.toLowerCase(),
+                ) ||
+                note.content.toLowerCase().contains(event.query.toLowerCase());
+          }).toList();
       emit(NotesLoaded(notes: filteredNotes, filterQuery: event.query));
     } catch (e) {
       emit(NotesLoadingError(message: e.toString()));

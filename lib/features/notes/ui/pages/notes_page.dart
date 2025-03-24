@@ -8,11 +8,12 @@ import 'package:imaginotes/core/config/router/app_constants.dart';
 import 'package:imaginotes/core/config/router/app_router.dart';
 import 'package:imaginotes/di.dart';
 import 'package:imaginotes/features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
-import 'package:imaginotes/features/notes/ui/widgets/logout_dialog.dart';
-import 'package:imaginotes/features/notes/ui/widgets/note_card.dart';
 
+import '../../domain/entities/tag_entity.dart';
 import '../blocs/notes_bloc/notes_bloc.dart';
 import '../blocs/tags_bloc/tags_bloc.dart';
+import '../widgets/logout_dialog.dart';
+import '../widgets/note_card.dart';
 
 @RoutePage()
 class NotesPage extends StatelessWidget {
@@ -56,7 +57,6 @@ class NotesPage extends StatelessWidget {
             );
           }
         },
-
         child: Scaffold(
           floatingActionButton: FloatingActionButton(
             onPressed: () => _onAddTap(context),
@@ -83,9 +83,106 @@ class NotesPage extends StatelessWidget {
                     ),
                   ),
                 ],
-            body: const _NotesBody(),
+            body: Column(
+              children: [
+                SizedBox(
+                  height: 40,
+                  child: BlocBuilder<TagsBloc, TagsState>(
+                    builder: (context, tagsState) {
+                      if (tagsState is TagsLoaded) {
+                        return _TagScrollList(
+                          tags: tagsState.tags,
+                          selectedTags:
+                              (context.watch<NotesBloc>().state is NotesLoaded)
+                                  ? (context.watch<NotesBloc>().state
+                                          as NotesLoaded)
+                                      .selectedTags
+                                  : {},
+                          onTagSelected: (tagId, selected) {
+                            final selectedTags = Set<String>.from(
+                              (context.read<NotesBloc>().state is NotesLoaded)
+                                  ? (context.read<NotesBloc>().state
+                                          as NotesLoaded)
+                                      .selectedTags
+                                  : {},
+                            );
+                            if (selected) {
+                              selectedTags.add(tagId);
+                            } else {
+                              selectedTags.remove(tagId);
+                            }
+                            context.read<NotesBloc>().add(
+                              LoadNotes(tags: selectedTags),
+                            );
+                          },
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: BlocBuilder<NotesBloc, NotesState>(
+                    // Mover BlocBuilder aquí
+                    builder: (context, state) {
+                      if (state is NotesLoaded) {
+                        return _NotesBody();
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _TagScrollList extends StatefulWidget {
+  final List<TagEntity> tags;
+  final Set<String> selectedTags;
+  final Function(String tagId, bool selected) onTagSelected;
+
+  const _TagScrollList({
+    required this.tags,
+    required this.selectedTags,
+    required this.onTagSelected,
+  });
+
+  @override
+  _TagScrollListState createState() => _TagScrollListState();
+}
+
+class _TagScrollListState extends State<_TagScrollList> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      controller: _scrollController, // Usar el ScrollController
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children:
+            widget.tags.map((tag) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: FilterChip(
+                  label: Text(tag.value),
+                  selected: widget.selectedTags.contains(tag.id),
+                  onSelected:
+                      (selected) => widget.onTagSelected(tag.id, selected),
+                ),
+              );
+            }).toList(),
       ),
     );
   }
