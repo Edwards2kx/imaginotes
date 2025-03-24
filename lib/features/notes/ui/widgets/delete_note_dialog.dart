@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class LogoutDialog extends StatelessWidget {
-  const LogoutDialog({super.key});
+class DeleteNoteDialog extends StatelessWidget {
+  const DeleteNoteDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('¿Estás seguro de que quieres cerrar sesión?'),
-      content: const Text('¿Serás redirigido a la página de inicio?'),
+      title: const Text('¿Borrar nota?'),
+      content: const Text('¿Estás seguro de que quieres borrar esta nota?'),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(false),
