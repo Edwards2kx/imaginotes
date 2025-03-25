@@ -18,6 +18,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.grey[800],
         title: TextField(
           autofocus: true,
           decoration: const InputDecoration(

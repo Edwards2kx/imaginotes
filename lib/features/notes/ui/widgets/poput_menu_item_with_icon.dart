@@ -1,29 +1,15 @@
-// import 'package:flutter/material.dart';
-
-// class PoputMenuItemWithIcon extends PopupMenuItem {
-//   final IconData icon;
-//   final  title;
-//   final Function onTap;
-//   const PoputMenuItemWithIcon(
-//     this.icon,
-//     this.title,
-//     this.onTap, {
-//     super.key,
-//     required super.child,
-//   });
-// }
 import 'package:flutter/material.dart';
 
 class CustomPopupMenuItem<T> extends StatelessWidget {
   final T value;
   final Widget child;
-  final IconData? iconData; // Nuevo parámetro IconData
+  final IconData? iconData;
 
   const CustomPopupMenuItem({
     super.key,
     required this.value,
     required this.child,
-    this.iconData, // El IconData es opcional
+    this.iconData,
   });
 
   @override

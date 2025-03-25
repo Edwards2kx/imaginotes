@@ -20,7 +20,7 @@ class SignInPage extends StatelessWidget {
       child: BlocListener<CreateAccountBloc, CreateAccountState>(
         listener: (context, state) {
           if (state is CreateAccountSuccess) {
-            context.router.replace(const NotesRoute());
+            context.router.replaceAll([const NotesRoute()]);
           }
         },
         child: Scaffold(
@@ -64,42 +64,42 @@ class _RegisterPageBodyState extends State<_RegisterPageBody> {
   @override
   Widget build(BuildContext context) {
     return Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(AppConstants.formPadding),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                const Icon(Icons.person_add, size: 80, color: Colors.white),
-                const SizedBox(height: 20),
-                Text(
-                  'Crear Cuenta',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineMedium?.copyWith(color: Colors.white),
-                ),
-                const SizedBox(height: 30),
-                SignInTextField(label: 'Email', controller: emailController),
-                const SizedBox(height: 20),
-                SignInTextField(
-                  controller: passwordController,
-                  label: 'Contraseña',
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                SignInTextField(
-                  controller: confirmPasswordController,
-                  label: 'Confirmar Contraseña',
-                  obscureText: true,
-                ),
-                const SizedBox(height: 30),
-                _ActionButtonSection(onTap: () => _onSignInTap(context)),
-                const SizedBox(height: 10),
-                _ErrorSection(),
-              ],
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppConstants.formPadding),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Icon(Icons.person_add, size: 80, color: Colors.white),
+            const SizedBox(height: 20),
+            Text(
+              'Crear Cuenta',
+              style: Theme.of(
+                context,
+              ).textTheme.headlineSmall?.copyWith(color: Colors.white),
             ),
-          ),
-        );
+            const SizedBox(height: 30),
+            SignInTextField(label: 'Email', controller: emailController),
+            const SizedBox(height: 20),
+            SignInTextField(
+              controller: passwordController,
+              label: 'Contraseña',
+              obscureText: true,
+            ),
+            const SizedBox(height: 20),
+            SignInTextField(
+              controller: confirmPasswordController,
+              label: 'Confirmar Contraseña',
+              obscureText: true,
+            ),
+            const SizedBox(height: 30),
+            _ActionButtonSection(onTap: () => _onSignInTap(context)),
+            const SizedBox(height: 10),
+            _ErrorSection(),
+          ],
+        ),
+      ),
+    );
   }
 }
 

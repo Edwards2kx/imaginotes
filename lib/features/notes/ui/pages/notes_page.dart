@@ -59,8 +59,9 @@ class NotesPage extends StatelessWidget {
         },
         child: Scaffold(
           floatingActionButton: FloatingActionButton(
+            backgroundColor: AppConstants.focusColor,
             onPressed: () => _onAddTap(context),
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.add, color: Colors.white),
           ),
           body: NestedScrollView(
             headerSliverBuilder:
@@ -69,6 +70,7 @@ class NotesPage extends StatelessWidget {
                     floating: true,
                     pinned: false,
                     snap: true,
+                    // backgroundColor: AppConstants.focusColor,
                     bottom: PreferredSize(
                       preferredSize: const Size.fromHeight(24.0),
                       child: Padding(
@@ -123,7 +125,6 @@ class NotesPage extends StatelessWidget {
                 ),
                 Expanded(
                   child: BlocBuilder<NotesBloc, NotesState>(
-                    // Mover BlocBuilder aquí
                     builder: (context, state) {
                       if (state is NotesLoaded) {
                         return _NotesBody();
@@ -168,7 +169,7 @@ class _TagScrollListState extends State<_TagScrollList> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      controller: _scrollController, // Usar el ScrollController
+      controller: _scrollController,
       scrollDirection: Axis.horizontal,
       child: Row(
         children:

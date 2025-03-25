@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../domain/entities/note_entity.dart';
 import '../../domain/entities/tag_entity.dart';
@@ -32,16 +33,18 @@ class NotesRepositoryImpl extends NotesRepository {
               .collection('notes')
               .doc(user.uid)
               .collection('userNotes')
-              .doc(); // Genera un ID automático dentro de userNotes
+              .doc();
       await noteDoc.set({
         'title': title,
         'content': content,
         'createdAt': nowTime,
         'updatedAt': nowTime,
-        'tags': tags ?? [], // Guardar solo los IDs de los tags
+        'tags': tags ?? [],
       });
     } catch (e) {
-      print('Error al guardar la nota: $e');
+      if (kDebugMode) {
+        debugPrint('Error al guardar la nota: $e');
+      }
       rethrow;
     }
   }
@@ -78,7 +81,7 @@ class NotesRepositoryImpl extends NotesRepository {
                   .collection('notes')
                   .doc(user.uid)
                   .collection('userTags')
-                  .get(); // Obtener todos los tags del usuario
+                  .get();
           if (userTagsDoc.docs.isNotEmpty) {
             Map<String, dynamic> userTagsData = {};
             for (var tagDoc in userTagsDoc.docs) {
