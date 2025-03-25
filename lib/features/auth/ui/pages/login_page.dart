@@ -67,7 +67,7 @@ class _LoginPageBodyState extends State<_LoginPageBody> {
                 obscureText: true,
               ),
               const SizedBox(height: 30),
-              _actionButtonSection(
+              _ActionButtonSection(
                 onTap: () {
                   context.read<LoginBloc>().add(
                     LoginAttemptEvent(
@@ -89,11 +89,9 @@ class _LoginPageBodyState extends State<_LoginPageBody> {
   }
 }
 
-class _actionButtonSection extends StatelessWidget {
-  const _actionButtonSection({this.onTap});
+class _ActionButtonSection extends StatelessWidget {
+  const _ActionButtonSection({this.onTap});
 
-  // final TextEditingController emailController;
-  // final TextEditingController passwordController;
   final void Function()? onTap;
 
   @override
@@ -157,7 +155,7 @@ class _SingUpSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('¿No tienes una cuenta?'),
+        Text('¿No tienes una cuenta?', style: TextStyle(color: Colors.white70)),
         TextButton(
           onPressed: () {
             context.router.push(SignInRoute());
@@ -166,7 +164,8 @@ class _SingUpSection extends StatelessWidget {
           child: Text(
             'Crear Cuenta',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+              color: Theme.of(context).colorScheme.surface,
+              fontWeight: FontWeight.w900,
             ),
           ),
         ),
@@ -186,11 +185,24 @@ class _HeaderSection extends StatelessWidget {
       children: [
         const Icon(Icons.note_alt, size: 80, color: Colors.white),
         const SizedBox(height: 20),
-        Text(
-          'Inicio de Sesión',
-          style: Theme.of(
-            context,
-          ).textTheme.headlineMedium?.copyWith(color: Colors.white),
+        RichText(
+          textAlign: TextAlign.center,
+          text: TextSpan(
+            style: Theme.of(
+              context,
+            ).textTheme.headlineSmall?.copyWith(color: Colors.white),
+            children: [
+              const TextSpan(text: 'Ingresa a '),
+              TextSpan(
+                text: 'ImagiNotes',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 1.5,
+                ),
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 30),
       ],

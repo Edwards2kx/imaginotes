@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imaginotes/core/config/router/app_constants.dart';
 
 import 'package:imaginotes/di.dart';
 
@@ -133,8 +134,9 @@ class _NoteDetailBodyState extends State<_NoteDetailBody> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppConstants.focusColor,
+        child: Icon(Icons.save, color: Colors.white),
         onPressed: () => _onSaveAction(),
-        child: Icon(Icons.save),
       ),
       body: SingleChildScrollView(
         child: Padding(

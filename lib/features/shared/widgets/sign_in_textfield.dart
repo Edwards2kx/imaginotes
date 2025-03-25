@@ -21,6 +21,7 @@ class SignInTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       obscureText: obscureText,
+      cursorColor: Theme.of(context).colorScheme.surface,
       decoration: InputDecoration(
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white70),

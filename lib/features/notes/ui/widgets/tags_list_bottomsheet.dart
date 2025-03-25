@@ -165,7 +165,6 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                                       value: selectedTags.any(
                                         (selTag) => selTag.id == tag.id,
                                       ),
-                                      // value: selectedTags.contains(tag),
                                       onChanged: (isChecked) {
                                         setState(() {
                                           if (isChecked == true) {
@@ -188,8 +187,6 @@ class _TagsBottomSheetState extends State<TagsBottomSheet> {
                             },
                           ),
                         ),
-
-                    // Botón de confirmación
                     Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16,
