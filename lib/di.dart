@@ -6,9 +6,9 @@ import 'package:imaginotes/features/notes/ui/blocs/notes_bloc/notes_bloc.dart';
 import 'package:imaginotes/features/notes/ui/blocs/tags_bloc/tags_bloc.dart';
 
 import 'features/auth/data/repositories/auth_repository_impl.dart';
-import 'features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
-import 'features/auth/ui/pages/created_account_bloc/create_account_bloc.dart';
-import 'features/auth/ui/pages/login_bloc/login_bloc.dart';
+import 'features/auth/ui/blocs/auth_bloc/check_auth_bloc.dart';
+import 'features/auth/ui/blocs/created_account_bloc/create_account_bloc.dart';
+import 'features/auth/ui/blocs/login_bloc/login_bloc.dart';
 import 'features/notes/data/repositories/notes_repository_impl.dart';
 import 'features/notes/data/repositories/tags_repository_impl.dart';
 
@@ -29,7 +29,6 @@ void setup() {
     ),
   );
 
-  // Registrar CheckAuthBloc
   getIt.registerFactory(
     () => CheckAuthBloc(repository: getIt<AuthRepositoryImpl>()),
   );
@@ -44,7 +43,10 @@ void setup() {
   getIt.registerSingleton<NotesBloc>(
     NotesBloc(repository: getIt<NotesRepositoryImpl>()),
   );
-  getIt.registerSingleton<CreateAccountBloc>(CreateAccountBloc());
+
+  getIt.registerFactory(
+    () => CreateAccountBloc(repository: getIt<AuthRepositoryImpl>()),
+  );
 
   getIt.registerSingleton<LoginBloc>(LoginBloc(getIt<AuthRepositoryImpl>()));
 
