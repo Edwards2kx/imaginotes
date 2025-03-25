@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:imaginotes/core/config/router/app_router.dart';
 import 'package:imaginotes/di.dart';
 
-import 'package:imaginotes/features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
+import 'package:imaginotes/features/auth/ui/blocs/auth_bloc/check_auth_bloc.dart';
 
 @RoutePage()
 class CheckAuthPage extends StatelessWidget {

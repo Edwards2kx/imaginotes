@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:imaginotes/core/config/router/app_constants.dart';
 import 'package:imaginotes/core/config/router/app_router.dart';
 import 'package:imaginotes/di.dart';
-import 'package:imaginotes/features/auth/ui/pages/login_bloc/login_bloc.dart';
+
+import '../../../shared/widgets/linear_gradient_background.dart';
+import '../../../shared/widgets/sign_in_textfield.dart';
+import '../blocs/login_bloc/login_bloc.dart';
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
@@ -14,17 +18,7 @@ class LoginPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<LoginBloc>(),
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              stops: [0.1, 0.3, 0.9],
-              colors: [Colors.redAccent, Colors.pink, Colors.black26],
-            ),
-          ),
-          child: const _LoginPageBody(),
-        ),
+        body: LinearGradientBackground(child: const _LoginPageBody()),
       ),
     );
   }
@@ -59,123 +53,147 @@ class _LoginPageBodyState extends State<_LoginPageBody> {
       },
       child: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
+          padding: const EdgeInsets.all(AppConstants.formPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Icon(Icons.note_alt, size: 80, color: Colors.white),
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _HeaderSection(),
+              SignInTextField(label: 'Email', controller: emailController),
               const SizedBox(height: 20),
-              Text(
-                'Inicio de Sesión',
-                style: Theme.of(
-                  context,
-                ).textTheme.headlineMedium?.copyWith(color: Colors.white),
-              ),
-              const SizedBox(height: 30),
-              TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: const TextStyle(color: Colors.white70),
-                  filled: true,
-                  fillColor: Colors.white12,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: const TextStyle(color: Colors.white),
-              ),
-              const SizedBox(height: 20),
-              TextField(
+              SignInTextField(
                 controller: passwordController,
+                label: 'Contraseña',
                 obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'Contraseña',
-                  labelStyle: const TextStyle(color: Colors.white70),
-                  filled: true,
-                  fillColor: Colors.white12,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                ),
-                style: const TextStyle(color: Colors.white),
               ),
               const SizedBox(height: 30),
-              BlocBuilder<LoginBloc, LoginState>(
-                builder: (context, state) {
-                  return ElevatedButton(
-                    onPressed: () {
-                      context.read<LoginBloc>().add(
-                        LoginAttemptEvent(
-                          emailController.text,
-                          passwordController.text,
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pink,
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size(double.infinity, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+              _actionButtonSection(
+                onTap: () {
+                  context.read<LoginBloc>().add(
+                    LoginAttemptEvent(
+                      emailController.text,
+                      passwordController.text,
                     ),
-                    child:
-                        (state is LoginLoading)
-                            ? const CircularProgressIndicator()
-                            : Text(
-                              'Iniciar Sesión',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.headlineSmall?.copyWith(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
                   );
                 },
               ),
               const SizedBox(height: 10),
-              BlocBuilder<LoginBloc, LoginState>(
-                builder: (context, state) {
-                  if (state is LoginError) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        'Error: ${state.errorType.description}',
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
-                  }
-                  return const SizedBox();
-                },
-              ),
+              _ErrorSection(),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('¿No tienes una cuenta?'),
-                  TextButton(
-                    onPressed: () {
-                      context.router.push(RegisterRoute());
-                    },
-                    style: TextButton.styleFrom(foregroundColor: Colors.white),
-                    child: Text(
-                      'Crear Cuenta',
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              _SingUpSection(),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _actionButtonSection extends StatelessWidget {
+  const _actionButtonSection({this.onTap});
+
+  // final TextEditingController emailController;
+  // final TextEditingController passwordController;
+  final void Function()? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        return ElevatedButton(
+          onPressed: state is! LoginLoading ? onTap : null,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.pink,
+            foregroundColor: Colors.white,
+            minimumSize: const Size(double.infinity, 50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          child:
+              (state is LoginLoading)
+                  ? const CircularProgressIndicator()
+                  : Text(
+                    'Iniciar Sesión',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+        );
+      },
+    );
+  }
+}
+
+class _ErrorSection extends StatelessWidget {
+  const _ErrorSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(
+      builder: (context, state) {
+        if (state is LoginError) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              'Error: ${state.errorType.description}',
+              style: const TextStyle(color: Colors.red),
+            ),
+          );
+        }
+        return const SizedBox();
+      },
+    );
+  }
+}
+
+class _SingUpSection extends StatelessWidget {
+  const _SingUpSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text('¿No tienes una cuenta?'),
+        TextButton(
+          onPressed: () {
+            context.router.push(SignInRoute());
+          },
+          style: TextButton.styleFrom(foregroundColor: Colors.white),
+          child: Text(
+            'Crear Cuenta',
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HeaderSection extends StatelessWidget {
+  const _HeaderSection();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const Icon(Icons.note_alt, size: 80, color: Colors.white),
+        const SizedBox(height: 20),
+        Text(
+          'Inicio de Sesión',
+          style: Theme.of(
+            context,
+          ).textTheme.headlineMedium?.copyWith(color: Colors.white),
+        ),
+        const SizedBox(height: 30),
+      ],
     );
   }
 }

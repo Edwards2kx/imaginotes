@@ -7,7 +7,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:imaginotes/core/config/router/app_constants.dart';
 import 'package:imaginotes/core/config/router/app_router.dart';
 import 'package:imaginotes/di.dart';
-import 'package:imaginotes/features/auth/ui/pages/auth_bloc/check_auth_bloc.dart';
+import 'package:imaginotes/features/auth/ui/blocs/auth_bloc/check_auth_bloc.dart';
 
 import '../../domain/entities/tag_entity.dart';
 import '../blocs/notes_bloc/notes_bloc.dart';
@@ -256,7 +256,10 @@ class _AppBarInternal extends StatelessWidget {
       builder: (_) => const LogoutDialog(),
     );
 
-    if (response == true) getIt<CheckAuthBloc>().add(Logout());
+    if (response == true && context.mounted) {
+      context.read<CheckAuthBloc>().add(const Logout());
+      context.router.replace(LoginRoute());
+    }
   }
 
   void _onMenuTap(BuildContext context) {}

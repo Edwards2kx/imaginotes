@@ -1,11 +1,10 @@
 import 'package:either_dart/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:imaginotes/core/entities/user_entity.dart';
-import 'package:imaginotes/features/auth/domain/errors/auth_error.dart';
+import 'package:imaginotes/features/auth/domain/errors/sign_up_error.dart';
 
+import '../../domain/errors/auth_error.dart';
 import '../../domain/repositories/auth_repository.dart';
-
-//recibe instancia de firebase, y de base de datos para guardar el token de usuario
 
 class AuthRepositoryImpl implements AuthRepository {
   final FirebaseAuth _firebaseAuth;
@@ -127,5 +126,91 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> signOut() async {
     _firebaseAuth.signOut();
+  }
+
+  @override
+  Future<Either<SignUpError, UserEntity>> registerWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
+    try {
+      final response = await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      return Right(
+        UserEntity(
+          name: response.user!.displayName ?? '',
+          uid: response.user!.uid,
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case 'email-already-in-use':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.emailAlreadyInUse,
+              debugMessage: e.toString(),
+            ),
+          );
+        case 'invalid-email':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.invalidEmail,
+              debugMessage: e.toString(),
+            ),
+          );
+        case 'operation-not-allowed':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.operationNotAllowed,
+              debugMessage: e.toString(),
+            ),
+          );
+        case 'weak-password':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.weakPassword,
+              debugMessage: e.toString(),
+            ),
+          );
+        case 'too-many-requests':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.tooManyRequests,
+              debugMessage: e.toString(),
+            ),
+          );
+        case 'user-token-expired':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.userTokenExpired,
+              debugMessage: e.toString(),
+            ),
+          );
+        case 'network-request-failed':
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.networkRequestFailed,
+              debugMessage: e.toString(),
+            ),
+          );
+        default:
+          return Left(
+            SignUpError(
+              type: SignUpErrorType.unknownError,
+              debugMessage: e.toString(),
+            ),
+          );
+      }
+    } catch (e) {
+      return Left(
+        SignUpError(
+          type: SignUpErrorType.unknownError,
+          debugMessage: e.toString(),
+        ),
+      );
+    }
   }
 }
